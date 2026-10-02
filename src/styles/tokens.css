@@ -1,0 +1,88 @@
+/* Design tokens for The Chef Cafe.
+   Single source of truth for colors, type, spacing and motion.
+   Import this first so every component inherits the same values. */
+
+:root {
+  /* ---- Palette ---- */
+  --color-ink: #070709;
+  --color-ink-soft: #111114;
+  --color-surface: #141418;
+  --color-surface-2: #1b1b22;
+  --color-line: rgba(255, 255, 255, 0.08);
+  --color-line-strong: rgba(255, 255, 255, 0.16);
+
+  /* Deep theatrical red accent (replacing bright orange) */
+  --color-accent: #8b1523;
+  --color-accent-soft: #a81c2d;
+  --color-accent-dim: rgba(139, 21, 35, 0.45);
+  --color-accent-glow: rgba(139, 21, 35, 0.35);
+
+  /* Mapped legacy color tokens for compatibility */
+  --color-clay: var(--color-accent);
+  --color-clay-soft: var(--color-accent-soft);
+  --color-amber: #991b28;
+  --color-gold: #c29562;
+
+  --color-cream: #f4ede1;
+  --color-cream-dim: #b9a994;
+  --color-mist: #8a8580;
+
+  --color-success: #2f9e6b;
+
+  /* ---- Type ---- */
+  --font-display: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
+  --font-sans: 'Inter', 'Helvetica Neue', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+
+  /* ---- Type scale ---- */
+  --step-hero: clamp(2.5rem, 7vw, 5.5rem);
+  --step-h1: clamp(2rem, 4vw, 3rem);
+  --step-h2: clamp(1.5rem, 2.5vw, 2rem);
+  --step-body: 1rem;
+  --step-sm: 0.875rem;
+  --step-xs: 0.75rem;
+
+  /* ---- Spacing ---- */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 3rem;
+  --space-xl: 5rem;
+  --space-2xl: 8rem;
+  --space-3xl: 12rem;
+
+  /* ---- Layout ---- */
+  --max-width: 1280px;
+  --nav-height: 72px;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 28px;
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 200ms;
+  --dur-base: 500ms;
+  --dur-slow: 900ms;
+  --dur-very-slow: 1600ms;
+
+  /* ---- Shadows ---- */
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 60px rgba(139, 21, 35, 0.25);
+}
+
+/* Reduced motion: disable all transitions and animations. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-slow: 0ms;
+    --dur-very-slow: 0ms;
+  }
+  * {
+    animation-duration: 0ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}

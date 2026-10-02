@@ -1,0 +1,2 @@
+/* Entry stylesheet. Everything the app needs lives under src/styles/. */
+@import './styles/global.css';
