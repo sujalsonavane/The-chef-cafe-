@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { LottieAnimation } from './LottieAnimation'
 
 interface ReservationModalProps {
   isOpen: boolean
@@ -74,7 +75,16 @@ export function ReservationModal({ isOpen, onClose, dishName }: ReservationModal
         {!confirmed ? (
           <>
             <div className="modal-header">
-              <span className="modal-tag">The Chef Cafe · Sector 19D, Vashi</span>
+              <div className="modal-header-badge-row">
+                <span className="modal-tag">The Chef Cafe · Sector 19D, Vashi</span>
+                <LottieAnimation
+                  src="/animations/dining-cutlery.json"
+                  width={46}
+                  height={46}
+                  className="modal-header-lottie"
+                  ariaLabel="The Chef Cafe Dining"
+                />
+              </div>
               <h2 id="modal-title" className="modal-title">Reserve Your Table</h2>
               <p className="modal-desc">
                 {dishName
@@ -181,7 +191,13 @@ export function ReservationModal({ isOpen, onClose, dishName }: ReservationModal
           </>
         ) : (
           <div className="modal-success">
-            <div className="success-icon" aria-hidden="true">✓</div>
+            <LottieAnimation
+              src="/animations/dining-cutlery.json"
+              width={100}
+              height={100}
+              className="modal-success-lottie"
+              ariaLabel="Table reserved successfully"
+            />
             <h3 className="success-title">Table Reserved!</h3>
             <p className="success-desc">
               Thank you, <strong>{name || 'Guest'}</strong>! Your table for{' '}

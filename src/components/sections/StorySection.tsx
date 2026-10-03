@@ -1,7 +1,18 @@
+import { LottieAnimation } from '../ui/LottieAnimation'
+
 export function StorySection() {
   return (
     <section id="story" className="content-section">
       <div className="section-header text-center">
+        <div className="story-badge-wrap">
+          <LottieAnimation
+            src="/animations/cafe-drink.json"
+            width={64}
+            height={64}
+            className="story-badge-lottie"
+            ariaLabel="The Chef Cafe Artisan Drinks"
+          />
+        </div>
         <p className="eyebrow">Our Story</p>
         <h2 className="section-title">A culinary destination in Vashi</h2>
         <p className="section-lede">

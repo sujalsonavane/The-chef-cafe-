@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react'
 import { fullMenu, officialMenuScans, type MenuItem, type MenuScan } from '../../data/menu'
+import { LottieAnimation } from '../ui/LottieAnimation'
 
 interface MenuPageProps {
   isOpen: boolean
@@ -308,7 +309,13 @@ export function MenuPage({ isOpen, onClose, onBookTable }: MenuPageProps) {
 
             {filteredDishes.length === 0 ? (
               <div className="menu-page__empty-state">
-                <p className="menu-page__empty-icon">🍽️</p>
+                <LottieAnimation
+                  src="/animations/burger-stack.json"
+                  width={140}
+                  height={105}
+                  className="menu-page__empty-lottie"
+                  ariaLabel="No dishes found"
+                />
                 <h4>No dishes found matching your selection</h4>
                 <p>Try clearing your search term or switching the dietary preference.</p>
                 <button

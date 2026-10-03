@@ -1,4 +1,5 @@
 import { featuredKitchenDishes } from '../../data/menu'
+import { LottieAnimation } from '../ui/LottieAnimation'
 
 interface MenuSectionProps {
   onSelectItem?: (dishName?: string) => void
@@ -123,6 +124,13 @@ export function MenuSection({ onSelectItem, onOpenFullMenu }: MenuSectionProps) 
 
       {/* Primary Section CTA: View Full Menu */}
       <div className="kitchen-cta-wrap">
+        <LottieAnimation
+          src="/animations/burger-stack.json"
+          width={130}
+          height={96}
+          className="kitchen-cta-lottie"
+          ariaLabel="Explore gourmet kitchen selection"
+        />
         <p className="kitchen-cta-caption">
           Explore our complete selection of clay-oven tandoor, wok specialties, dum biryanis, craft coolers & spirits.
         </p>

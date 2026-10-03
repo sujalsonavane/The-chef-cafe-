@@ -3927,3 +3927,58 @@
   transform: scale(0.97);
   transition: transform 0.1s ease;
 }
+
+/* ==========================================================================
+   LOTTIE THEMED ANIMATIONS (Plate & Cutlery, Artisan Drink, Burger Stack)
+   ========================================================================== */
+.lottie-container svg {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.modal-header-badge-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.modal-header-lottie {
+  filter: drop-shadow(0 2px 8px rgba(212, 163, 115, 0.35));
+  flex-shrink: 0;
+}
+
+.modal-success-lottie {
+  margin: 0 auto 1.25rem;
+  filter: drop-shadow(0 4px 16px rgba(212, 163, 115, 0.4));
+}
+
+.story-badge-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.85rem;
+}
+
+.story-badge-lottie {
+  filter: drop-shadow(0 2px 14px rgba(212, 163, 115, 0.45));
+}
+
+.kitchen-cta-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.kitchen-cta-lottie {
+  margin: 0 auto 1rem;
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.55));
+}
+
+.menu-page__empty-lottie {
+  margin: 0 auto 1rem;
+  filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.6));
+}
