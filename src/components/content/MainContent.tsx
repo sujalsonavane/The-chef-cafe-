@@ -4,6 +4,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { MenuSection } from '../sections/MenuSection'
 import { StorySection } from '../sections/StorySection'
 import { SpaceSection } from '../sections/SpaceSection'
+import { MapSection } from '../sections/MapSection'
+import { FaqSection } from '../sections/FaqSection'
 import { ReservationsSection } from '../sections/ReservationsSection'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -14,9 +16,8 @@ interface MainContentProps {
 }
 
 /**
- * The non-cinematic body of the site.
- * Enhanced with GSAP ScrollTrigger pop-up animations on sections,
- * headings, and interactive menu cards.
+ * The core content of The Chef Cafe website.
+ * Smoothly animated with GSAP ScrollTrigger (once: true) to eliminate scroll stutter and jank.
  */
 export function MainContent({ onBookTable, onOpenFullMenu }: MainContentProps) {
   const mainRef = useRef<HTMLElement>(null)
@@ -26,7 +27,7 @@ export function MainContent({ onBookTable, onOpenFullMenu }: MainContentProps) {
     if (!mainEl) return
 
     const ctx = gsap.context(() => {
-      // 1. Pop-up reveal for section headers (eyebrow, title, lede)
+      // 1. Smooth entrance reveal for section headers
       const sections = mainEl.querySelectorAll<HTMLElement>('.content-section')
       sections.forEach((section) => {
         const eyebrow = section.querySelector('.eyebrow')
@@ -39,27 +40,25 @@ export function MainContent({ onBookTable, onOpenFullMenu }: MainContentProps) {
             targets,
             {
               opacity: 0,
-              y: 32,
-              scale: 0.95,
+              y: 24,
             },
             {
               opacity: 1,
               y: 0,
-              scale: 1,
-              duration: 0.75,
+              duration: 0.6,
               ease: 'power2.out',
-              stagger: 0.1,
+              stagger: 0.08,
               scrollTrigger: {
                 trigger: section,
-                start: 'top 85%',
-                toggleActions: 'play none none reverse',
+                start: 'top 88%',
+                once: true,
               },
             }
           )
         }
       })
 
-      // 2. Pop-up spring animation for Kitchen Editorial Cards
+      // 2. Smooth reveal for Kitchen Editorial Cards
       const kitchenCards = mainEl.querySelectorAll<HTMLElement>(
         '.kitchen-editorial__feature, .kitchen-sub-card'
       )
@@ -68,72 +67,43 @@ export function MainContent({ onBookTable, onOpenFullMenu }: MainContentProps) {
           kitchenCards,
           {
             opacity: 0,
-            y: 40,
-            scale: 0.92,
+            y: 28,
           },
           {
             opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.75,
-            ease: 'power2.out',
-            stagger: 0.12,
-            scrollTrigger: {
-              trigger: '.kitchen-editorial',
-              start: 'top 85%',
-              toggleActions: 'play none none reverse',
-            },
-          }
-        )
-      }
-
-      // 3. Pop-up button animation in Reservations section
-      const resBtn = mainEl.querySelector<HTMLElement>('#reservations .btn')
-      if (resBtn) {
-        gsap.fromTo(
-          resBtn,
-          {
-            opacity: 0,
-            scale: 0.82,
-            y: 20,
-          },
-          {
-            opacity: 1,
-            scale: 1,
             y: 0,
             duration: 0.65,
-            ease: 'back.out(1.6)',
+            ease: 'power2.out',
+            stagger: 0.1,
             scrollTrigger: {
-              trigger: '#reservations',
-              start: 'top 78%',
-              toggleActions: 'play none none reverse',
+              trigger: '.kitchen-editorial',
+              start: 'top 88%',
+              once: true,
             },
           }
         )
       }
 
-      // 4. Subtle pop-up reveal for photographic showcases
-      const photoShowcases = mainEl.querySelectorAll<HTMLElement>(
-        '.story-showcase, .space-gallery__card, .reservations-wrapper'
+      // 3. Smooth reveal for interactive showcase cards & map
+      const showcases = mainEl.querySelectorAll<HTMLElement>(
+        '.story-showcase, .space-gallery__card, .map-showcase, .faq-accordion, .reservations-wrapper'
       )
-      photoShowcases.forEach((showcase) => {
+      showcases.forEach((showcase) => {
         gsap.fromTo(
           showcase,
           {
             opacity: 0,
-            y: 35,
-            scale: 0.98,
+            y: 24,
           },
           {
             opacity: 1,
             y: 0,
-            scale: 1,
-            duration: 0.85,
+            duration: 0.65,
             ease: 'power2.out',
             scrollTrigger: {
               trigger: showcase,
-              start: 'top 88%',
-              toggleActions: 'play none none reverse',
+              start: 'top 90%',
+              once: true,
             },
           }
         )
@@ -148,6 +118,8 @@ export function MainContent({ onBookTable, onOpenFullMenu }: MainContentProps) {
       <StorySection />
       <MenuSection onSelectItem={onBookTable} onOpenFullMenu={onOpenFullMenu} />
       <SpaceSection />
+      <MapSection onBookTable={() => onBookTable?.()} />
+      <FaqSection onBookTable={() => onBookTable?.()} />
       <ReservationsSection onBookTable={() => onBookTable?.()} />
     </main>
   )

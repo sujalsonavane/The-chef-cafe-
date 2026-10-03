@@ -33,6 +33,17 @@ export function ReservationModal({ isOpen, onClose, dishName }: ReservationModal
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [isOpen, handleClose])
 
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      const prevOverflow = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
+      return () => {
+        document.body.style.overflow = prevOverflow
+      }
+    }
+  }, [isOpen])
+
   if (!isOpen) return null
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -63,29 +74,20 @@ export function ReservationModal({ isOpen, onClose, dishName }: ReservationModal
         {!confirmed ? (
           <>
             <div className="modal-header">
-              <span className="modal-logo-frame">
-                <img
-                  src="/logo-256.png"
-                  alt="The Chef Cafe crest"
-                  className="modal-logo-img"
-                  width={52}
-                  height={52}
-                  loading="eager"
-                  decoding="async"
-                />
-              </span>
-              <span className="modal-tag">The Chef Cafe · Vashi</span>
+              <span className="modal-tag">The Chef Cafe · Sector 19D, Vashi</span>
               <h2 id="modal-title" className="modal-title">Reserve Your Table</h2>
               <p className="modal-desc">
                 {dishName
                   ? `Reserving a table to experience our ${dishName}.`
-                  : 'Fine multi-cuisine dining, live music & memorable celebrations.'}
+                  : 'Multi-cuisine dining, craft lounge bar & unforgettable celebrations.'}
               </p>
             </div>
 
             <form onSubmit={handleSubmit} className="modal-form">
               <div className="form-group">
-                <label className="form-label">Guests</label>
+                <label className="form-label">
+                  Party Size: <strong style={{ color: 'var(--color-gold)' }}>{guests} Guests</strong>
+                </label>
                 <div className="guests-selector" role="radiogroup" aria-label="Number of guests">
                   {['2', '4', '6', '8+'].map((num) => (
                     <button
@@ -93,6 +95,7 @@ export function ReservationModal({ isOpen, onClose, dishName }: ReservationModal
                       key={num}
                       className={`guest-pill ${guests === num ? 'is-active' : ''}`}
                       onClick={() => setGuests(num)}
+                      aria-pressed={guests === num}
                     >
                       {num} {num === '8+' ? 'Guests' : 'Seats'}
                     </button>
@@ -102,7 +105,9 @@ export function ReservationModal({ isOpen, onClose, dishName }: ReservationModal
 
               <div className="form-row">
                 <div className="form-group">
-                  <label htmlFor="res-date" className="form-label">Date</label>
+                  <label htmlFor="res-date" className="form-label">
+                    Date <span className="form-label-hint">(DD/MM/YYYY)</span>
+                  </label>
                   <input
                     id="res-date"
                     type="date"
@@ -113,7 +118,7 @@ export function ReservationModal({ isOpen, onClose, dishName }: ReservationModal
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="res-time" className="form-label">Time</label>
+                  <label htmlFor="res-time" className="form-label">Time & Service</label>
                   <select
                     id="res-time"
                     className="form-input"
@@ -132,24 +137,24 @@ export function ReservationModal({ isOpen, onClose, dishName }: ReservationModal
 
               <div className="form-row">
                 <div className="form-group">
-                  <label htmlFor="res-name" className="form-label">Name</label>
+                  <label htmlFor="res-name" className="form-label">Guest Name</label>
                   <input
                     id="res-name"
                     type="text"
                     className="form-input"
-                    placeholder="Your name"
+                    placeholder="Your full name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="res-phone" className="form-label">Phone</label>
+                  <label htmlFor="res-phone" className="form-label">Mobile Number</label>
                   <input
                     id="res-phone"
                     type="tel"
                     className="form-input"
-                    placeholder="98765 43210"
+                    placeholder="+91 98765 43210"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     required
@@ -163,14 +168,14 @@ export function ReservationModal({ isOpen, onClose, dishName }: ReservationModal
                   id="res-notes"
                   type="text"
                   className="form-input"
-                  placeholder="e.g. Birthday celebration, booth seating, near stage"
+                  placeholder="e.g. Birthday, anniversary, quiet booth"
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                 />
               </div>
 
-              <button type="submit" className="btn btn--primary modal-submit">
-                Confirm Reservation
+              <button type="submit" className="btn btn-primary modal-submit">
+                Confirm Table Reservation
               </button>
             </form>
           </>
@@ -179,16 +184,17 @@ export function ReservationModal({ isOpen, onClose, dishName }: ReservationModal
             <div className="success-icon" aria-hidden="true">✓</div>
             <h3 className="success-title">Table Reserved!</h3>
             <p className="success-desc">
-              Thank you, <strong>{name || 'Guest'}</strong>. Your table for{' '}
+              Thank you, <strong>{name || 'Guest'}</strong>! Your table for{' '}
               <strong>{guests} guests</strong> on <strong>{date}</strong> at{' '}
-              <strong>{time}</strong> is confirmed.
+              <strong>{time}</strong> has been registered.
             </p>
             <p className="success-sub">
-              We look forward to welcoming you at The Chef Cafe in Vashi.
+              A confirmation WhatsApp / SMS will be dispatched to <strong>{phone || 'your phone'}</strong>.
+              Tables are held for 15 minutes past reservation time.
             </p>
             <button
               type="button"
-              className="btn btn--primary"
+              className="btn btn-primary"
               onClick={handleClose}
             >
               Done

@@ -20,16 +20,16 @@ type CategoryType =
   | 'scans'
 
 const CATEGORIES: { id: CategoryType; label: string }[] = [
-  { id: 'all', label: 'All Items' },
+  { id: 'all', label: 'All Dishes' },
   { id: 'starters', label: 'Tandoor & Kebabs' },
-  { id: 'chinese', label: 'Indo-Chinese' },
-  { id: 'mains', label: 'Mains & Curries' },
-  { id: 'biryani', label: 'Biryani & Rice' },
+  { id: 'chinese', label: 'Indo-Chinese Wok' },
+  { id: 'mains', label: 'Mains & Gravies' },
+  { id: 'biryani', label: 'Dum Biryanis' },
   { id: 'pizza-pasta', label: 'Pizzas & Pastas' },
-  { id: 'beverages', label: 'Mocktails & Drinks' },
+  { id: 'beverages', label: 'Craft Coolers & Drinks' },
   { id: 'desserts', label: 'Desserts' },
-  { id: 'bar', label: 'Bar & Spirits' },
-  { id: 'scans', label: 'Official Menu Scans 📄' },
+  { id: 'bar', label: 'Lounge Bar Tariff' },
+  { id: 'scans', label: '📄 Original Menu Scans' },
 ]
 
 export function MenuPage({ isOpen, onClose, onBookTable }: MenuPageProps) {
@@ -91,6 +91,11 @@ export function MenuPage({ isOpen, onClose, onBookTable }: MenuPageProps) {
     })
   }, [activeCategory, dietFilter, searchQuery])
 
+  const handleCategoryClick = (catId: CategoryType, e: React.MouseEvent<HTMLButtonElement>) => {
+    setActiveCategory(catId)
+    e.currentTarget.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+  }
+
   if (!isOpen) return null
 
   return (
@@ -110,7 +115,7 @@ export function MenuPage({ isOpen, onClose, onBookTable }: MenuPageProps) {
             aria-label="Back to restaurant website"
           >
             <span aria-hidden="true" className="menu-page__back-arrow">←</span>
-            <span>Back to Restaurant</span>
+            <span className="menu-page__back-text">Back to Website</span>
           </button>
 
           <div className="menu-page__header-brand">
@@ -119,8 +124,8 @@ export function MenuPage({ isOpen, onClose, onBookTable }: MenuPageProps) {
                 src="/logo-256.png"
                 alt="The Chef Cafe logo"
                 className="menu-page__brand-logo-img"
-                width={36}
-                height={36}
+                width={34}
+                height={34}
                 loading="eager"
                 decoding="async"
               />
@@ -142,7 +147,7 @@ export function MenuPage({ isOpen, onClose, onBookTable }: MenuPageProps) {
               }}
               className="btn btn-primary menu-page__book-btn"
             >
-              Book a table
+              Book Table
             </button>
             <button
               type="button"
@@ -158,14 +163,14 @@ export function MenuPage({ isOpen, onClose, onBookTable }: MenuPageProps) {
 
       {/* Main scrollable body */}
       <main className="menu-page__main">
-        {/* Streamlined Menu Header: Title + Short Intro */}
+        {/* Streamlined Menu Header */}
         <section className="menu-page__hero">
           <div className="menu-page__hero-content">
-            <span className="eyebrow">RESTAURANT MENU</span>
+            <span className="eyebrow">RESTAURANT MENU & TARIFF</span>
             <h2 className="menu-page__hero-title">Culinary Selections & Bar</h2>
             <p className="menu-page__hero-desc">
-              Authentic clay-oven tandoor, fiery Indo-Chinese wok specialties, slow-cooked dum biryanis,
-              pizzas, hand-muddled craft coolers, and bar tariff.
+              Authentic clay-oven tandoor kebabs, fiery Indo-Chinese wok specialties, slow-cooked dum biryanis,
+              pizzas, hand-muddled craft coolers, and bar tariff in Sector 19D, Vashi.
             </p>
           </div>
         </section>
@@ -177,7 +182,7 @@ export function MenuPage({ isOpen, onClose, onBookTable }: MenuPageProps) {
               <span className="menu-page__search-icon" aria-hidden="true">🔍</span>
               <input
                 type="text"
-                placeholder="Search dishes, drinks, ingredients (e.g. kebab, biryani, paneer, mojito)..."
+                placeholder="Search dishes, drinks, ingredients (e.g. kebab, biryani)..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="menu-page__search-input"
@@ -202,7 +207,7 @@ export function MenuPage({ isOpen, onClose, onBookTable }: MenuPageProps) {
                 className={`diet-pill ${dietFilter === 'all' ? 'is-active' : ''}`}
                 onClick={() => setDietFilter('all')}
               >
-                All Diet
+                All Diets
               </button>
               <button
                 type="button"
@@ -221,7 +226,7 @@ export function MenuPage({ isOpen, onClose, onBookTable }: MenuPageProps) {
             </div>
           </div>
 
-          {/* Category Tabs */}
+          {/* Category Tabs with horizontal scroll affordance */}
           <nav className="menu-page__categories" aria-label="Menu categories">
             <div className="menu-page__categories-track">
               {CATEGORIES.map((cat) => (
@@ -229,7 +234,7 @@ export function MenuPage({ isOpen, onClose, onBookTable }: MenuPageProps) {
                   key={cat.id}
                   type="button"
                   className={`menu-page__category-tab ${activeCategory === cat.id ? 'is-active' : ''}`}
-                  onClick={() => setActiveCategory(cat.id)}
+                  onClick={(e) => handleCategoryClick(cat.id, e)}
                 >
                   {cat.label}
                 </button>
@@ -250,7 +255,7 @@ export function MenuPage({ isOpen, onClose, onBookTable }: MenuPageProps) {
             </div>
 
             <div className="menu-page__scans-grid">
-              {officialMenuScans.map((scan) => (
+              {officialMenuScans.map((scan: MenuScan) => (
                 <article
                   key={scan.id}
                   className="menu-scan-card"
@@ -263,8 +268,9 @@ export function MenuPage({ isOpen, onClose, onBookTable }: MenuPageProps) {
                       setActiveScanModal(scan)
                     }
                   }}
+                  aria-label={`View scan: ${scan.title}`}
                 >
-                  <div className="menu-scan-card__thumb-wrap">
+                  <div className="menu-scan-card__thumb-frame">
                     <img
                       src={scan.image}
                       alt={scan.title}
@@ -287,7 +293,8 @@ export function MenuPage({ isOpen, onClose, onBookTable }: MenuPageProps) {
           <section className="menu-page__dishes-section">
             <div className="menu-page__dishes-meta">
               <span className="menu-page__results-count">
-                Showing {filteredDishes.length} {filteredDishes.length === 1 ? 'item' : 'items'}
+                Showing <strong>{filteredDishes.length}</strong> {filteredDishes.length === 1 ? 'dish' : 'dishes'}
+                {dietFilter !== 'all' ? ` (${dietFilter === 'veg' ? 'Veg Only' : 'Non-Veg'})` : ''}
                 {searchQuery ? ` matching "${searchQuery}"` : ''}
               </span>
               <button
@@ -295,7 +302,7 @@ export function MenuPage({ isOpen, onClose, onBookTable }: MenuPageProps) {
                 onClick={() => setActiveCategory('scans')}
                 className="btn-text menu-page__view-scans-link"
               >
-                📄 View Original Printed Menu Scans →
+                📄 View Printed Menu Scans →
               </button>
             </div>
 
@@ -303,7 +310,7 @@ export function MenuPage({ isOpen, onClose, onBookTable }: MenuPageProps) {
               <div className="menu-page__empty-state">
                 <p className="menu-page__empty-icon">🍽️</p>
                 <h4>No dishes found matching your selection</h4>
-                <p>Try clearing your search term or switching the dietary filter.</p>
+                <p>Try clearing your search term or switching the dietary preference.</p>
                 <button
                   type="button"
                   onClick={() => {
@@ -321,8 +328,19 @@ export function MenuPage({ isOpen, onClose, onBookTable }: MenuPageProps) {
                 {filteredDishes.map((dish: MenuItem) => (
                   <article
                     key={dish.id}
-                    className="dish-card text-only"
+                    className={`dish-card${dish.image ? ' has-image' : ' text-only'}`}
                   >
+                    {dish.image && (
+                      <div className="dish-card__image-container">
+                        <img
+                          src={dish.image}
+                          alt={dish.name}
+                          loading="lazy"
+                          decoding="async"
+                          className="dish-card__photo"
+                        />
+                      </div>
+                    )}
                     <div className="dish-card__content">
                       <div className="dish-card__top">
                         <div className="dish-card__identity">
@@ -372,40 +390,40 @@ export function MenuPage({ isOpen, onClose, onBookTable }: MenuPageProps) {
                 onClick={onClose}
                 className="btn btn-outline"
               >
-                Back to restaurant
+                Back to Website
               </button>
             </div>
           </div>
         </footer>
       </main>
 
-      {/* Lightbox Modal for Scanned Menus */}
+      {/* Lightbox Modal for Full Menu Scan Viewing */}
       {activeScanModal && (
         <div
-          className="scan-lightbox"
+          className="scan-lightbox-overlay"
+          onClick={() => setActiveScanModal(null)}
           role="dialog"
           aria-modal="true"
           aria-label={activeScanModal.title}
-          onClick={() => setActiveScanModal(null)}
         >
           <div
-            className="scan-lightbox__container"
+            className="scan-lightbox-dialog"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="scan-lightbox__header">
+            <header className="scan-lightbox__header">
               <div>
-                <h3 className="scan-lightbox__title">{activeScanModal.title}</h3>
-                <p className="scan-lightbox__subtitle">{activeScanModal.subtitle}</p>
+                <h4 className="scan-lightbox__title">{activeScanModal.title}</h4>
+                <p className="scan-lightbox__sub">{activeScanModal.subtitle}</p>
               </div>
               <button
                 type="button"
                 onClick={() => setActiveScanModal(null)}
                 className="scan-lightbox__close"
-                aria-label="Close image viewer"
+                aria-label="Close high resolution scan viewer"
               >
                 ✕
               </button>
-            </div>
+            </header>
             <div className="scan-lightbox__image-wrap">
               <img
                 src={activeScanModal.image}

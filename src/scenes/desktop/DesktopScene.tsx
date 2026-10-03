@@ -522,6 +522,12 @@ export function DesktopScene({ onReady }: DesktopSceneProps) {
       scrub: 0.5,
       animation: timeline,
       invalidateOnRefresh: true,
+      onLeave: () => {
+        scene.setVisible(false)
+      },
+      onEnterBack: () => {
+        scene.setVisible(true)
+      },
     })
 
     // 5. Resize handling via ResizeObserver

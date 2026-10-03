@@ -5,7 +5,7 @@ interface FooterProps {
   onOpenMenuPage?: () => void
 }
 
-const CURRENT_YEAR = 2026
+const CURRENT_YEAR = new Date().getFullYear()
 
 export function Footer({ onBookTable, onOpenMenuPage }: FooterProps) {
   const { location, contact, hours, social } = RESTAURANT_INFO
@@ -91,19 +91,21 @@ export function Footer({ onBookTable, onOpenMenuPage }: FooterProps) {
                   href={social.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="footer-link footer-link--social"
+                  className="footer-social-pill"
                   aria-label="The Chef Cafe on Instagram"
                 >
-                  Instagram ↗
+                  <span>Instagram</span>
+                  <span aria-hidden="true">↗</span>
                 </a>
                 <a
                   href={social.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="footer-link footer-link--social"
+                  className="footer-social-pill"
                   aria-label="The Chef Cafe on Facebook"
                 >
-                  Facebook ↗
+                  <span>Facebook</span>
+                  <span aria-hidden="true">↗</span>
                 </a>
               </div>
             </div>
@@ -111,7 +113,7 @@ export function Footer({ onBookTable, onOpenMenuPage }: FooterProps) {
 
           {/* Col 2: Navigation */}
           <div className="footer-col footer-col--nav">
-            <h4 className="footer-col__heading">Navigation</h4>
+            <h4 className="footer-col__heading">Quick Navigation</h4>
             <ul className="footer-nav__list">
               <li>
                 <button
@@ -119,17 +121,27 @@ export function Footer({ onBookTable, onOpenMenuPage }: FooterProps) {
                   onClick={onOpenMenuPage}
                   className="footer-link footer-link--btn"
                 >
-                  Menu & Spirits
+                  Culinary Menu & Tariff
                 </button>
               </li>
               <li>
                 <a href="#story" className="footer-link">
-                  Our Story
+                  Our Culinary Story
                 </a>
               </li>
               <li>
                 <a href="#space" className="footer-link">
-                  The Space
+                  The Space & Ambience
+                </a>
+              </li>
+              <li>
+                <a href="#location" className="footer-link">
+                  Live Map & Directions
+                </a>
+              </li>
+              <li>
+                <a href="#faq" className="footer-link">
+                  Frequently Asked Questions
                 </a>
               </li>
               <li>
@@ -138,7 +150,7 @@ export function Footer({ onBookTable, onOpenMenuPage }: FooterProps) {
                   onClick={onBookTable}
                   className="footer-link footer-link--btn"
                 >
-                  Reservations
+                  Table Reservations
                 </button>
               </li>
             </ul>
@@ -146,21 +158,25 @@ export function Footer({ onBookTable, onOpenMenuPage }: FooterProps) {
 
           {/* Col 3: Location & Hours */}
           <div className="footer-col footer-col--location">
-            <h4 className="footer-col__heading">Location</h4>
-            <address className="footer-address">
-              {location.formattedAddress.map((line, idx) => (
-                <span key={idx} className="footer-address__line">
-                  {line}
-                </span>
-              ))}
-            </address>
+            <h4 className="footer-col__heading">Location & Arrival</h4>
             <a
               href={location.mapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="footer-maps-link"
+              className="footer-address-link"
+              title="Open The Chef Cafe on Google Maps"
             >
-              Get Directions on Google Maps ↗
+              <address className="footer-address">
+                {location.formattedAddress.map((line, idx) => (
+                  <span key={idx} className="footer-address__line">
+                    {line}
+                  </span>
+                ))}
+              </address>
+              <span className="footer-maps-badge">
+                <span>View on Google Maps</span>
+                <span aria-hidden="true">↗</span>
+              </span>
             </a>
 
             <div className="footer-hours">
@@ -179,30 +195,37 @@ export function Footer({ onBookTable, onOpenMenuPage }: FooterProps) {
                   <span className="footer-hours__time">{hours.days}</span>
                 </div>
               </div>
-              {hours.isPendingConfirmation && (
-                <p className="footer-hours__badge">
-                  * {hours.note}
-                </p>
-              )}
+              <p className="footer-hours__badge">
+                * {hours.note}
+              </p>
             </div>
           </div>
 
-          {/* Col 4: Contact */}
+          {/* Col 4: Contact & Immediate Triggers */}
           <div className="footer-col footer-col--contact">
-            <h4 className="footer-col__heading">Contact & Inquiries</h4>
+            <h4 className="footer-col__heading">Contact & Reservations</h4>
             <div className="footer-contact__items">
               <div className="footer-contact__item">
-                <span className="footer-contact__label">Phone</span>
-                <span className="footer-contact__val">{contact.phoneDisplay}</span>
+                <span className="footer-contact__label">Phone / Booking Line</span>
+                <a href={`tel:${contact.phoneCallable}`} className="footer-contact__link">
+                  📞 {contact.phoneDisplay}
+                </a>
               </div>
               <div className="footer-contact__item">
-                <span className="footer-contact__label">WhatsApp</span>
-                <span className="footer-contact__val">{contact.whatsappDisplay}</span>
+                <span className="footer-contact__label">WhatsApp Inquiries</span>
+                <a
+                  href={contact.whatsappLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="footer-contact__link footer-contact__link--wa"
+                >
+                  💬 Chat on WhatsApp
+                </a>
               </div>
               <div className="footer-contact__item">
                 <span className="footer-contact__label">Email</span>
-                <a href={`mailto:${contact.email}`} className="footer-link">
-                  {contact.email}
+                <a href={`mailto:${contact.email}`} className="footer-contact__link">
+                  ✉️ {contact.email}
                 </a>
               </div>
             </div>
@@ -213,14 +236,9 @@ export function Footer({ onBookTable, onOpenMenuPage }: FooterProps) {
                 onClick={onBookTable}
                 className="btn btn-outline footer-quick-reserve-btn"
               >
-                Direct Table Reservation
+                Instant Online Reservation
               </button>
             </div>
-            {contact.isPendingConfirmation && (
-              <p className="footer-contact__notice">
-                Official contact lines pending management confirmation for website launch.
-              </p>
-            )}
           </div>
         </div>
 

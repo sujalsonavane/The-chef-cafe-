@@ -35,7 +35,7 @@ export class CurtainScene {
       powerPreference: 'high-performance',
     })
     this.renderer.setSize(width, height)
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5))
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping
     this.renderer.toneMappingExposure = 1.0
     container.appendChild(this.renderer.domElement)
@@ -102,12 +102,25 @@ export class CurtainScene {
     }
   }
 
+  private isRenderingActive: boolean = true
+
+  public setVisible(visible: boolean): void {
+    this.isRenderingActive = visible
+    if (visible && this.animFrameId === null && !this.isDisposed) {
+      this.startLoop()
+    }
+  }
+
   private startLoop(): void {
     if (this.animFrameId !== null) return
     const loop = () => {
       if (this.isDisposed) return
-      this.render()
-      this.animFrameId = requestAnimationFrame(loop)
+      if (this.isRenderingActive) {
+        this.render()
+        this.animFrameId = requestAnimationFrame(loop)
+      } else {
+        this.animFrameId = null
+      }
     }
     this.animFrameId = requestAnimationFrame(loop)
   }
@@ -122,7 +135,7 @@ export class CurtainScene {
     this.cameraRig.updateAspect(width / height)
     this.curtainPanels.resize(this.cameraRig.camera)
     this.renderer.setSize(width, height)
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5))
     this.render()
   }
 
