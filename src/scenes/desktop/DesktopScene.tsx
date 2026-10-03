@@ -41,6 +41,8 @@ export function DesktopScene({ onReady }: DesktopSceneProps) {
   const cornerBRRef = useRef<HTMLDivElement>(null)
   // Mid-vertical divider under title (subtle hairline)
   const dividerRef = useRef<HTMLDivElement>(null)
+  // Embossed Cafe Logo Medallion on Red Curtain
+  const logoCrestRef = useRef<HTMLDivElement>(null)
 
   const heroDish = CINEMATIC_FOOD_ITEMS.find((d) => d.id === 'hero-kebab-platter') || CINEMATIC_FOOD_ITEMS[1]
   const sec1Dish = CINEMATIC_FOOD_ITEMS.find((d) => d.id === 'chilly-starter') || CINEMATIC_FOOD_ITEMS[0]
@@ -71,6 +73,7 @@ export function DesktopScene({ onReady }: DesktopSceneProps) {
     const cornerBL = cornerBLRef.current
     const cornerBR = cornerBRRef.current
     const divider = dividerRef.current
+    const logoCrest = logoCrestRef.current
 
     if (
       !track ||
@@ -94,7 +97,8 @@ export function DesktopScene({ onReady }: DesktopSceneProps) {
       !cornerTR ||
       !cornerBL ||
       !cornerBR ||
-      !divider
+      !divider ||
+      !logoCrest
     ) {
       return
     }
@@ -122,12 +126,13 @@ export function DesktopScene({ onReady }: DesktopSceneProps) {
     gsap.set(ambientGlow, { opacity: 0 })
     gsap.set(foodStage, { autoAlpha: 0 })
     gsap.set(welcome, { opacity: 0, y: 28, scale: 0.96 })
-    gsap.set(heroEl, { opacity: 0, y: 220, scale: 0.88, filter: 'blur(10px)' })
-    gsap.set(sec2El, { opacity: 0, y: 80, scale: 0.28, filter: 'blur(8px)' })
-    gsap.set(sec1El, { opacity: 0, y: 80, scale: 0.28, filter: 'blur(8px)' })
+    gsap.set(heroEl, { opacity: 0, y: 180, scale: 0.9 })
+    gsap.set(sec2El, { opacity: 0, y: 60, scale: 0.35 })
+    gsap.set(sec1El, { opacity: 0, y: 60, scale: 0.35 })
 
     // ── Curtain Enrichment initial hidden states ─────────────────────────
     gsap.set([cornerTL, cornerTR, cornerBL, cornerBR], { opacity: 0, scale: 0.7 })
+    gsap.set(logoCrest, { opacity: 0, scale: 0.8, y: -10 })
     gsap.set(topMark, { opacity: 0, y: -20, scale: 0.92 })
     gsap.set(pillarsRow, { opacity: 0, y: -16, scale: 0.94 })
     gsap.set(divider, { opacity: 0, scaleX: 0, transformOrigin: '50% 50%' })
@@ -144,14 +149,6 @@ export function DesktopScene({ onReady }: DesktopSceneProps) {
     const timeline = gsap.timeline({ paused: true })
 
     // ── 0. PAGE-LOAD: Curtain Enrichment One-Shot Entrance ─────────────────
-    //    Runs once on mount (not scrubbed by scroll) to populate the empty
-    //    curtain with elegant flourishes. Staggered over ~900ms.
-    //    ┌─────────────────────────────────────────────────────────────┐
-    //    │  1. Corners (TL, TR, BL, BR) appear with inward stagger       │
-    //    │  2. Top mark (Est. year + tagline) descends from top edge    │
-    //    │  3. Pillars row (signature chips) fades in below top mark    │
-    //    │  4. Hairline divider under THE CHEF CAFE title grows open    │
-    //    └─────────────────────────────────────────────────────────────┘
     const entrance = gsap.timeline()
     // Corners: TL → BR diagonal stagger for a theatrical "frame closing" feel
     entrance.to(
@@ -163,6 +160,11 @@ export function DesktopScene({ onReady }: DesktopSceneProps) {
       [cornerTR, cornerBL],
       { opacity: 1, scale: 1, duration: 0.55, ease: 'power3.out' },
       0.18
+    )
+    entrance.to(
+      logoCrest,
+      { opacity: 1, scale: 1, y: 0, duration: 0.65, ease: 'back.out(1.5)' },
+      0.2
     )
     entrance.to(
       topMark,
@@ -452,7 +454,6 @@ export function DesktopScene({ onReady }: DesktopSceneProps) {
         opacity: 1,
         scale: 1,
         y: 0,
-        filter: 'blur(0px)',
         duration: SCENE_CONFIG.timeline.foodHeroEnd - SCENE_CONFIG.timeline.foodHeroStart,
         ease: 'power2.out',
       },
@@ -467,7 +468,6 @@ export function DesktopScene({ onReady }: DesktopSceneProps) {
         opacity: 1,
         scale: 1,
         y: -8,
-        filter: 'blur(0px)',
         duration: SCENE_CONFIG.timeline.foodRightEnd - SCENE_CONFIG.timeline.foodRightStart,
         ease: 'back.out(1.75)',
       },
@@ -482,7 +482,6 @@ export function DesktopScene({ onReady }: DesktopSceneProps) {
         opacity: 1,
         scale: 1,
         y: 18,
-        filter: 'blur(0px)',
         duration: SCENE_CONFIG.timeline.foodLeftEnd - SCENE_CONFIG.timeline.foodLeftStart,
         ease: 'back.out(1.75)',
       },
@@ -520,7 +519,7 @@ export function DesktopScene({ onReady }: DesktopSceneProps) {
       end: 'bottom bottom',
       pin: stage,
       pinSpacing: true,
-      scrub: 1.0,
+      scrub: 0.5,
       animation: timeline,
       invalidateOnRefresh: true,
     })
@@ -579,8 +578,19 @@ export function DesktopScene({ onReady }: DesktopSceneProps) {
             <span className="curtain-corner__rule curtain-corner__rule--v" />
           </div>
 
-          {/* ─── TOP ESTABLISHMENT MARK ─── fills the empty upper portion of the curtain */}
+          {/* ─── TOP ESTABLISHMENT MARK & EMBOSSED CREST ─── */}
           <div ref={topMarkRef} className="curtain-topmark" aria-hidden="false">
+            <div ref={logoCrestRef} className="curtain-logo-crest">
+              <img
+                src="/logo-256.png"
+                alt="The Chef Cafe crest"
+                className="curtain-logo-crest__img"
+                width={80}
+                height={80}
+                loading="eager"
+                decoding="async"
+              />
+            </div>
             <span className="curtain-topmark__eyebrow">◆&nbsp;&nbsp;Vashi · Navi Mumbai&nbsp;&nbsp;◆</span>
             <span className="curtain-topmark__year">Est. 2024</span>
             <span className="curtain-topmark__rule" aria-hidden="true" />

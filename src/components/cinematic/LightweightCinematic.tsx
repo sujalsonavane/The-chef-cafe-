@@ -2,14 +2,15 @@ import { useEffect } from 'react'
 
 interface LightweightCinematicProps {
   onReady?: () => void
+  onOpenMenuPage?: () => void
+  onBookTable?: () => void
 }
 
 /**
- * Lightweight 2D/2.5D Experience Placeholder.
- * Mounts for mobile and devices unsuitable for the 650vh Three.js desktop track.
- * Does NOT import Three.js, shaders, or 3D geometry.
+ * Lightweight 2D/2.5D Mobile Experience.
+ * Beautiful mobile hero featuring The Chef Cafe official crest, location, and quick actions.
  */
-export function LightweightCinematic({ onReady }: LightweightCinematicProps) {
+export function LightweightCinematic({ onReady, onOpenMenuPage, onBookTable }: LightweightCinematicProps) {
   useEffect(() => {
     onReady?.()
   }, [onReady])
@@ -18,6 +19,17 @@ export function LightweightCinematic({ onReady }: LightweightCinematicProps) {
     <section className="lightweight-cinematic" aria-label="The Chef Cafe Introduction">
       <div className="lightweight-cinematic__stage">
         <div className="lightweight-cinematic__brand">
+          <div className="lightweight-cinematic__logo-badge">
+            <img
+              src="/logo-256.png"
+              alt="The Chef Cafe crest"
+              className="lightweight-cinematic__logo-img"
+              width={76}
+              height={76}
+              loading="eager"
+              decoding="async"
+            />
+          </div>
           <span className="lightweight-cinematic__eyebrow">Est. 2024 · Vashi, Navi Mumbai</span>
           <h1 className="lightweight-cinematic__title">The Chef Cafe</h1>
           <p className="lightweight-cinematic__tagline">Food • Music • Dining • Moments</p>
@@ -42,6 +54,29 @@ export function LightweightCinematic({ onReady }: LightweightCinematicProps) {
             <span>Sector 19D, Vashi · Navi Mumbai</span>
             <span className="location-pointer-arrow" aria-hidden="true">↗</span>
           </a>
+
+          {(onOpenMenuPage || onBookTable) && (
+            <div className="lightweight-cinematic__actions">
+              {onOpenMenuPage && (
+                <button
+                  type="button"
+                  onClick={onOpenMenuPage}
+                  className="btn btn-outline"
+                >
+                  Explore Menu
+                </button>
+              )}
+              {onBookTable && (
+                <button
+                  type="button"
+                  onClick={onBookTable}
+                  className="btn btn-primary"
+                >
+                  Book a Table
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </section>

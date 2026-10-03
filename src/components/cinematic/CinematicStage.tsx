@@ -18,7 +18,12 @@ const DesktopScene = lazy(() => import('../../scenes/desktop'))
  * Priority:
  *   REDUCED_MOTION > LIGHTWEIGHT > FULL_CINEMATIC
  */
-export function CinematicStage() {
+interface CinematicStageProps {
+  onBookTable?: () => void
+  onOpenMenuPage?: () => void
+}
+
+export function CinematicStage({ onBookTable, onOpenMenuPage }: CinematicStageProps) {
   const mode: ExperienceMode = getExperience()
 
   if (mode === 'REDUCED_MOTION') {
@@ -26,7 +31,12 @@ export function CinematicStage() {
   }
 
   if (mode === 'LIGHTWEIGHT') {
-    return <LightweightCinematic />
+    return (
+      <LightweightCinematic
+        onBookTable={onBookTable}
+        onOpenMenuPage={onOpenMenuPage}
+      />
+    )
   }
 
   return (

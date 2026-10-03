@@ -114,10 +114,23 @@ export function MenuPage({ isOpen, onClose, onBookTable }: MenuPageProps) {
           </button>
 
           <div className="menu-page__header-brand">
-            <h1 className="menu-page__title">The Chef Cafe</h1>
-            <p className="menu-page__subtitle">
-              Sector 19D, Vashi • Multi-Cuisine Dining & Bar
-            </p>
+            <span className="menu-page__brand-logo-frame">
+              <img
+                src="/logo-256.png"
+                alt="The Chef Cafe logo"
+                className="menu-page__brand-logo-img"
+                width={36}
+                height={36}
+                loading="eager"
+                decoding="async"
+              />
+            </span>
+            <div className="menu-page__brand-text-wrap">
+              <h1 className="menu-page__title">The Chef Cafe</h1>
+              <p className="menu-page__subtitle">
+                Sector 19D, Vashi • Multi-Cuisine Dining & Bar
+              </p>
+            </div>
           </div>
 
           <div className="menu-page__header-actions">

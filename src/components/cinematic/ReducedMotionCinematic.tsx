@@ -18,6 +18,17 @@ export function ReducedMotionCinematic({ onReady }: ReducedMotionCinematicProps)
     <section className="reduced-motion-cinematic" aria-label="The Chef Cafe Introduction">
       <div className="reduced-motion-cinematic__stage">
         <div className="reduced-motion-cinematic__brand">
+          <div className="lightweight-cinematic__logo-badge">
+            <img
+              src="/logo-256.png"
+              alt="The Chef Cafe crest"
+              className="lightweight-cinematic__logo-img"
+              width={76}
+              height={76}
+              loading="eager"
+              decoding="async"
+            />
+          </div>
           <span className="reduced-motion-cinematic__eyebrow">Est. 2024 · Vashi, Navi Mumbai</span>
           <h1 className="reduced-motion-cinematic__title">The Chef Cafe</h1>
           <p className="reduced-motion-cinematic__tagline">Food • Music • Dining • Moments</p>

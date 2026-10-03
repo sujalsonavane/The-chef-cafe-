@@ -14,10 +14,10 @@ export function StorySection() {
       <div className="story-showcase">
         <div className="story-showcase__frame">
           <img
-            src="/Refrence/The%20chef%20cafe/AHRPTWmgb5wnSO2EQ-Ai9Hs0diVwoQg34Tsz1FhjlAHD3JDt8WxtBUnUJEBlOobhHcfZnjaeoL2gM7P1XHiGl1zbweLt6upItO0L5007Se7ClJg67TTp2z3AUoj3eAJqLy3c_6p-5l0U9UKk7k4w4608-h2076-k-no.jpg"
+            src="/images/showcase/story-dining.jpg"
             alt="Main dining room with ambient lighting and spacious seating at The Chef Cafe in Vashi"
-            width={4608}
-            height={2076}
+            width={1920}
+            height={865}
             loading="lazy"
             decoding="async"
           />

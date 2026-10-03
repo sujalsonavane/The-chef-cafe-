@@ -16,8 +16,10 @@ export function Footer({ onBookTable, onOpenMenuPage }: FooterProps) {
       <section className="footer-cta" aria-labelledby="footer-cta-title">
         <div className="footer-cta__bg" aria-hidden="true">
           <img
-            src="/Refrence/The%20chef%20cafe/AHRPTWmjqxJAOxTUZi_WtMMuF1lG-7Iwb_TTmbSwD8gQKaZginfvykQq-dr0Yivk1VagoYdMoobwqKnrqwqpkCqq9ylVU2-urzwUxwpx6lwja892r1w2BAMZhDVUxh2kXEjgE3S2xMAZueiCetKtw3060-h4080-k-no.jpg"
+            src="/images/showcase/space-exterior.jpg"
             alt="The Chef Cafe entrance in Vashi"
+            width={1050}
+            height={1400}
             loading="lazy"
             decoding="async"
             className="footer-cta__img"
@@ -60,8 +62,23 @@ export function Footer({ onBookTable, onOpenMenuPage }: FooterProps) {
         <div className="footer-grid">
           {/* Col 1: Brand & Social */}
           <div className="footer-col footer-col--brand">
-            <h3 className="footer-brand__name">{RESTAURANT_INFO.name}</h3>
-            <p className="footer-brand__tagline">{RESTAURANT_INFO.tagline}</p>
+            <div className="footer-brand__lockup">
+              <span className="footer-brand__logo-frame">
+                <img
+                  src="/logo-256.png"
+                  alt="The Chef Cafe logo"
+                  className="footer-brand__logo-img"
+                  width={46}
+                  height={46}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </span>
+              <div>
+                <h3 className="footer-brand__name">{RESTAURANT_INFO.name}</h3>
+                <p className="footer-brand__tagline">{RESTAURANT_INFO.tagline}</p>
+              </div>
+            </div>
             <p className="footer-brand__bio">
               A culinary destination in Sector 19D, Vashi, bringing together clay-oven tandoor,
               Indo-Chinese wok dishes, slow-cooked biryanis, and an energetic lounge bar.

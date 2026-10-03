@@ -10,9 +10,11 @@ export function ReservationsSection({ onBookTable }: ReservationsSectionProps) {
       <div className="reservations-wrapper">
         <div className="reservations-wrapper__bg" aria-hidden="true">
           <img
-            src="/Refrence/The%20chef%20cafe/AHRPTWm7DbTL3Phn8nr011jMbXdGO87lRsdmfxGvEFq-_fujCULcC4v-9f1YBCTA5LLH5stE2lgLo4rFC5zmvmQOLfuWBdalEs16BWtn5C4j0lUDxH8A6m4b5Rlw4HZclsUcWTS7OUtjt_M9ALEw2398-h1080-k-no.jpg"
-            alt=""
-            loading="eager"
+            src="/images/showcase/reservations-ambience.jpg"
+            alt="The Chef Cafe dining ambience and warm lighting"
+            width={1800}
+            height={810}
+            loading="lazy"
             decoding="async"
           />
           <div className="reservations-wrapper__gradient" />

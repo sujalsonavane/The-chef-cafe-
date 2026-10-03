@@ -51,7 +51,12 @@ export default function App() {
   return (
     <>
       <SiteShell
-        cinematic={<CinematicStage />}
+        cinematic={
+          <CinematicStage
+            onBookTable={() => handleBookTable()}
+            onOpenMenuPage={handleOpenMenu}
+          />
+        }
         onBookTable={() => handleBookTable()}
         onOpenMenuPage={handleOpenMenu}
       >

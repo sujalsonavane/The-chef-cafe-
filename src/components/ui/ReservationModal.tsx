@@ -63,6 +63,17 @@ export function ReservationModal({ isOpen, onClose, dishName }: ReservationModal
         {!confirmed ? (
           <>
             <div className="modal-header">
+              <span className="modal-logo-frame">
+                <img
+                  src="/logo-256.png"
+                  alt="The Chef Cafe crest"
+                  className="modal-logo-img"
+                  width={52}
+                  height={52}
+                  loading="eager"
+                  decoding="async"
+                />
+              </span>
               <span className="modal-tag">The Chef Cafe · Vashi</span>
               <h2 id="modal-title" className="modal-title">Reserve Your Table</h2>
               <p className="modal-desc">
