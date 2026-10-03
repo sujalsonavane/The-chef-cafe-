@@ -115,7 +115,7 @@ export function MenuPage({ isOpen, onClose, onBookTable }: MenuPageProps) {
             aria-label="Back to restaurant website"
           >
             <span aria-hidden="true" className="menu-page__back-arrow">←</span>
-            <span className="menu-page__back-text">Back to Website</span>
+            <span className="menu-page__back-text">Back</span>
           </button>
 
           <div className="menu-page__header-brand">
@@ -182,7 +182,7 @@ export function MenuPage({ isOpen, onClose, onBookTable }: MenuPageProps) {
               <span className="menu-page__search-icon" aria-hidden="true">🔍</span>
               <input
                 type="text"
-                placeholder="Search dishes, drinks, ingredients (e.g. kebab, biryani)..."
+                placeholder="Search dishes or drinks..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="menu-page__search-input"

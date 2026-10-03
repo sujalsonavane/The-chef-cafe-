@@ -4,6 +4,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { CurtainScene } from './CurtainScene'
 import { SCENE_CONFIG, CINEMATIC_FOOD_ITEMS } from './sceneConfig'
 
+import { CornerFlourish } from '../../components/cinematic/CornerFlourish'
+
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger)
 
@@ -27,22 +29,18 @@ export function DesktopScene({ onReady }: DesktopSceneProps) {
   const sec1Ref = useRef<HTMLElement>(null)
   const sec2Ref = useRef<HTMLElement>(null)
 
-  // ── NEW CURTAIN ENRICHMENT REFS ──────────────────────────────────────────
-  // Top of stage: Establishment mark (est year + tagline eyebrow)
-  const topMarkRef = useRef<HTMLDivElement>(null)
-  // Top feature pillars row: signature offerings chips (fills empty upper curtain)
-  const pillarsRowRef = useRef<HTMLDivElement>(null)
-  // Rising Welcome: Moves BOTTOM → TOP as user scrolls (primary request!)
-  const risingWelcomeRef = useRef<HTMLDivElement>(null)
-  // Corner decorative flourishes (4 corners — elegant rules + typographic marks)
+  // ── THEATRICAL STAGE COMPOSITION REFS ─────────────────────────────────────
+  const frameRef = useRef<HTMLDivElement>(null)
   const cornerTLRef = useRef<HTMLDivElement>(null)
   const cornerTRRef = useRef<HTMLDivElement>(null)
   const cornerBLRef = useRef<HTMLDivElement>(null)
   const cornerBRRef = useRef<HTMLDivElement>(null)
-  // Mid-vertical divider under title (subtle hairline)
-  const dividerRef = useRef<HTMLDivElement>(null)
-  // Embossed Cafe Logo Medallion on Red Curtain
   const logoCrestRef = useRef<HTMLDivElement>(null)
+  const eyebrowRef = useRef<HTMLSpanElement>(null)
+  const flankedRowRef = useRef<HTMLDivElement>(null)
+  const taglineRef = useRef<HTMLParagraphElement>(null)
+  const diamondRef = useRef<HTMLDivElement>(null)
+  const risingWelcomeRef = useRef<HTMLDivElement>(null)
 
   const heroDish = CINEMATIC_FOOD_ITEMS.find((d) => d.id === 'hero-kebab-platter') || CINEMATIC_FOOD_ITEMS[1]
   const sec1Dish = CINEMATIC_FOOD_ITEMS.find((d) => d.id === 'chilly-starter') || CINEMATIC_FOOD_ITEMS[0]
@@ -64,16 +62,18 @@ export function DesktopScene({ onReady }: DesktopSceneProps) {
     const sec1El = sec1Ref.current
     const sec2El = sec2Ref.current
 
-    // New curtain enrichment elements
-    const topMark = topMarkRef.current
-    const pillarsRow = pillarsRowRef.current
-    const risingWelcome = risingWelcomeRef.current
+    // Stage composition elements
+    const frame = frameRef.current
     const cornerTL = cornerTLRef.current
     const cornerTR = cornerTRRef.current
     const cornerBL = cornerBLRef.current
     const cornerBR = cornerBRRef.current
-    const divider = dividerRef.current
     const logoCrest = logoCrestRef.current
+    const eyebrow = eyebrowRef.current
+    const flankedRow = flankedRowRef.current
+    const tagline = taglineRef.current
+    const diamond = diamondRef.current
+    const risingWelcome = risingWelcomeRef.current
 
     if (
       !track ||
@@ -90,15 +90,17 @@ export function DesktopScene({ onReady }: DesktopSceneProps) {
       !heroEl ||
       !sec1El ||
       !sec2El ||
-      !topMark ||
-      !pillarsRow ||
-      !risingWelcome ||
+      !frame ||
       !cornerTL ||
       !cornerTR ||
       !cornerBL ||
       !cornerBR ||
-      !divider ||
-      !logoCrest
+      !logoCrest ||
+      !eyebrow ||
+      !flankedRow ||
+      !tagline ||
+      !diamond ||
+      !risingWelcome
     ) {
       return
     }
@@ -130,12 +132,11 @@ export function DesktopScene({ onReady }: DesktopSceneProps) {
     gsap.set(sec2El, { opacity: 0, y: 60, scale: 0.35 })
     gsap.set(sec1El, { opacity: 0, y: 60, scale: 0.35 })
 
-    // ── Curtain Enrichment initial hidden states ─────────────────────────
-    gsap.set([cornerTL, cornerTR, cornerBL, cornerBR], { opacity: 0, scale: 0.7 })
+    // ── Curtain Stage Composition initial hidden states ─────────────────
+    gsap.set([cornerTL, cornerTR, cornerBL, cornerBR, frame], { opacity: 0, scale: 0.96 })
     gsap.set(logoCrest, { opacity: 0, scale: 0.8, y: -10 })
-    gsap.set(topMark, { opacity: 0, y: -20, scale: 0.92 })
-    gsap.set(pillarsRow, { opacity: 0, y: -16, scale: 0.94 })
-    gsap.set(divider, { opacity: 0, scaleX: 0, transformOrigin: '50% 50%' })
+    gsap.set([eyebrow, flankedRow, tagline], { opacity: 0, y: -14 })
+    gsap.set(diamond, { opacity: 0, scale: 0 })
     // GSAP owns transform (xPercent + yPercent + y + scale). Start fully hidden below center.
     gsap.set(risingWelcome, {
       autoAlpha: 0,
@@ -148,38 +149,50 @@ export function DesktopScene({ onReady }: DesktopSceneProps) {
     // 3. Create master GSAP timeline (paused, scrubbed deterministically by ScrollTrigger)
     const timeline = gsap.timeline({ paused: true })
 
-    // ── 0. PAGE-LOAD: Curtain Enrichment One-Shot Entrance ─────────────────
+    // ── 0. PAGE-LOAD: Theatrical Stage Composition Entrance ───────────────
     const entrance = gsap.timeline()
-    // Corners: TL → BR diagonal stagger for a theatrical "frame closing" feel
+    // Inset frame & Victorian Corner Flourishes entrance
     entrance.to(
       [cornerTL, cornerBR],
-      { opacity: 1, scale: 1, duration: 0.55, ease: 'power3.out' },
+      { opacity: 1, scale: 1, duration: 0.65, ease: 'power3.out' },
       0.05
     )
     entrance.to(
       [cornerTR, cornerBL],
-      { opacity: 1, scale: 1, duration: 0.55, ease: 'power3.out' },
+      { opacity: 1, scale: 1, duration: 0.65, ease: 'power3.out' },
       0.18
     )
     entrance.to(
+      frame,
+      { opacity: 1, scale: 1, duration: 0.75, ease: 'power2.out' },
+      0.12
+    )
+    // Logo Medallion with halo
+    entrance.to(
       logoCrest,
-      { opacity: 1, scale: 1, y: 0, duration: 0.65, ease: 'back.out(1.5)' },
-      0.2
+      { opacity: 1, scale: 1, y: 0, duration: 0.7, ease: 'back.out(1.5)' },
+      0.22
+    )
+    // Eyebrow, Flanked row, and Subtitle
+    entrance.to(
+      eyebrow,
+      { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' },
+      0.32
     )
     entrance.to(
-      topMark,
-      { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'power2.out' },
-      0.25
+      flankedRow,
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+      0.44
     )
     entrance.to(
-      pillarsRow,
-      { opacity: 1, y: 0, scale: 1, duration: 0.65, ease: 'power2.out' },
-      0.42
+      tagline,
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+      0.54
     )
     entrance.to(
-      divider,
-      { opacity: 1, scaleX: 1, duration: 0.7, ease: 'power2.inOut' },
-      0.55
+      diamond,
+      { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(2)' },
+      0.64
     )
 
     // Rising welcome: rises smoothly from below into dead center as title splits and curtain parts
@@ -207,12 +220,9 @@ export function DesktopScene({ onReady }: DesktopSceneProps) {
       SCENE_CONFIG.timeline.risingWelcomeFadeStart
     )
 
-    // ── NEW B. Curtain Enrichment Graceful Exit (as curtain opens) ───────
-    //    Top mark, pillars, corners, divider fade subtly as split title progresses.
-    //    We don't completely hide them until camera begins approach — keeps
-    //    the frame luxurious during curtain's dramatic opening phase.
+    // ── Graceful Exit (as curtain opens) ──────────────────────────────────
     timeline.to(
-      [cornerTL, cornerTR, cornerBL, cornerBR, topMark, pillarsRow, divider],
+      [cornerTL, cornerTR, cornerBL, cornerBR, frame, logoCrest, eyebrow, flankedRow, tagline, diamond],
       {
         opacity: 0,
         scale: 0.96,
@@ -566,66 +576,74 @@ export function DesktopScene({ onReady }: DesktopSceneProps) {
 
         {/* Phase 1: Brand title on closed curtain */}
         <div ref={brandOverlayRef} className="cinematic-brand-overlay">
-          {/* ─── CORNER FLOURISHES ─── Frame the curtain stage with elegant brass rules */}
-          <div ref={cornerTLRef} className="curtain-corner curtain-corner--tl" aria-hidden="true">
-            <span className="curtain-corner__rule curtain-corner__rule--h" />
-            <span className="curtain-corner__rule curtain-corner__rule--v" />
-          </div>
-          <div ref={cornerTRRef} className="curtain-corner curtain-corner--tr" aria-hidden="true">
-            <span className="curtain-corner__rule curtain-corner__rule--h" />
-            <span className="curtain-corner__rule curtain-corner__rule--v" />
-          </div>
-          <div ref={cornerBLRef} className="curtain-corner curtain-corner--bl" aria-hidden="true">
-            <span className="curtain-corner__rule curtain-corner__rule--h" />
-            <span className="curtain-corner__rule curtain-corner__rule--v" />
-          </div>
-          <div ref={cornerBRRef} className="curtain-corner curtain-corner--br" aria-hidden="true">
-            <span className="curtain-corner__rule curtain-corner__rule--h" />
-            <span className="curtain-corner__rule curtain-corner__rule--v" />
+          {/* ─── GOLDEN INSET FRAME & ORNATE VICTORIAN CORNER FLOURISHES ─── */}
+          <div ref={frameRef} className="curtain-stage-frame" aria-hidden="true">
+            <div ref={cornerTLRef} className="curtain-corner-flourish curtain-corner--tl">
+              <CornerFlourish />
+            </div>
+            <div ref={cornerTRRef} className="curtain-corner-flourish curtain-corner--tr">
+              <CornerFlourish />
+            </div>
+            <div ref={cornerBLRef} className="curtain-corner-flourish curtain-corner--bl">
+              <CornerFlourish />
+            </div>
+            <div ref={cornerBRRef} className="curtain-corner-flourish curtain-corner--br">
+              <CornerFlourish />
+            </div>
+            <div className="curtain-frame-border" />
           </div>
 
-          {/* ─── TOP ESTABLISHMENT MARK & EMBOSSED CREST ─── */}
-          <div ref={topMarkRef} className="curtain-topmark" aria-hidden="false">
+          {/* ─── GOLDEN SPARKLE STAR (Lower-Right) ─── */}
+          <div className="curtain-sparkle-star" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0C12 6.627 17.373 12 24 12C17.373 12 12 17.373 12 24C12 17.373 6.627 12 0 12C6.627 12 12 6.627 12 0Z" />
+            </svg>
+          </div>
+
+          {/* ─── CENTER HERO COMPOSITION ─── */}
+          <div className="cinematic-hero-stack">
+            {/* 1. Cafe Logo Medallion with Golden Halo */}
             <div ref={logoCrestRef} className="curtain-logo-crest">
+              <div className="curtain-logo-crest__halo" aria-hidden="true" />
               <img
                 src="/logo-256.png"
                 alt="The Chef Cafe crest"
                 className="curtain-logo-crest__img"
-                width={80}
-                height={80}
+                width={82}
+                height={82}
                 loading="eager"
                 decoding="async"
               />
             </div>
-            <span className="curtain-topmark__eyebrow">◆&nbsp;&nbsp;Vashi · Navi Mumbai&nbsp;&nbsp;◆</span>
-            <span className="curtain-topmark__year">Est. 2024</span>
-            <span className="curtain-topmark__rule" aria-hidden="true" />
-            <p className="curtain-topmark__tagline">
+
+            {/* 2. Eyebrow: ✦ VASHI · NAVI MUMBAI ✦ */}
+            <span ref={eyebrowRef} className="curtain-hero-eyebrow">
+              ✦&nbsp;&nbsp;VASHI · NAVI MUMBAI&nbsp;&nbsp;✦
+            </span>
+
+            {/* 3. Flanked Row: [ ✦ TANDOORI KITCHEN ] · Est. 2024 · [ ✦ AL FRESCO DINING ] */}
+            <div ref={flankedRowRef} className="curtain-flanked-row" role="list" aria-label="Highlights">
+              <span className="curtain-flank-pill" role="listitem">
+                <span className="flank-pill-star" aria-hidden="true">✦</span>
+                <span>TANDOORI KITCHEN</span>
+              </span>
+              <span className="curtain-flank-center">
+                <span className="flank-dot" aria-hidden="true">·</span>
+                <span className="flank-year">Est. 2024</span>
+                <span className="flank-dot" aria-hidden="true">·</span>
+              </span>
+              <span className="curtain-flank-pill" role="listitem">
+                <span className="flank-pill-star" aria-hidden="true">✦</span>
+                <span>AL FRESCO DINING</span>
+              </span>
+            </div>
+
+            {/* 4. Subtitle: A Stage for Unforgettable Dining */}
+            <p ref={taglineRef} className="curtain-hero-tagline">
               A Stage for Unforgettable Dining
             </p>
-          </div>
 
-          {/* ─── PILLARS / SIGNATURE OFFERINGS ROW ─── fills empty curtain space above title */}
-          <div ref={pillarsRowRef} className="curtain-pillars" role="list" aria-label="What we offer">
-            <span className="curtain-pillar" role="listitem">
-              <span className="curtain-pillar__dot" />
-              <span>Tandoori Kitchen</span>
-            </span>
-            <span className="curtain-pillar" role="listitem">
-              <span className="curtain-pillar__dot" />
-              <span>Live Music Nights</span>
-            </span>
-            <span className="curtain-pillar" role="listitem">
-              <span className="curtain-pillar__dot" />
-              <span>Al Fresco Dining</span>
-            </span>
-            <span className="curtain-pillar" role="listitem">
-              <span className="curtain-pillar__dot" />
-              <span>Family Friendly</span>
-            </span>
-          </div>
-
-          <div className="cinematic-title-wrapper">
+            {/* 5. Classical Serif Main Title with 3D drop shadow */}
             <h1 className="cinematic-title" aria-label="The Chef Cafe">
               <span ref={titleLeftRef} className="title-part title-part--left">
                 THE CHEF
@@ -638,11 +656,12 @@ export function DesktopScene({ onReady }: DesktopSceneProps) {
               </span>
             </h1>
 
-            {/* ─── HAIRLINE DIVIDER under the title ─── premium editorial touch */}
-            <div ref={dividerRef} className="curtain-divider" aria-hidden="true">
-              <span className="curtain-divider__diamond" />
+            {/* 6. Diamond Separator */}
+            <div ref={diamondRef} className="curtain-diamond-separator" aria-hidden="true">
+              ◆
             </div>
 
+            {/* 7. Location Pill */}
             <a
               ref={locationPointerRef}
               href="https://www.google.com/maps/search/?api=1&query=The+Chef+Cafe+Spire+Tower+Sector+19D+Vashi+Navi+Mumbai"
@@ -665,8 +684,10 @@ export function DesktopScene({ onReady }: DesktopSceneProps) {
               <span>Sector 19D, Vashi · Navi Mumbai</span>
               <span className="location-pointer-arrow" aria-hidden="true">↗</span>
             </a>
+
+            {/* 8. Scroll Indicator */}
             <p ref={scrollIndicatorRef} className="cinematic-scroll-indicator">
-              Scroll to enter
+              — SCROLL TO ENTER —
             </p>
           </div>
 

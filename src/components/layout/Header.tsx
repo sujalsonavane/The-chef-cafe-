@@ -81,7 +81,7 @@ export function Header({ onBookTable, onOpenMenuPage }: HeaderProps) {
           <span className="brand-text">The Chef Cafe</span>
         </a>
 
-        {/* Desktop Navigation Links */}
+        {/* Desktop Navigation Links — Floating Frosted Capsule */}
         <nav className="site-nav" aria-label="Primary">
           <a
             href="#menu"
@@ -102,12 +102,6 @@ export function Header({ onBookTable, onOpenMenuPage }: HeaderProps) {
           <a href="#space" onClick={(e) => handleNavClick(e, 'space')}>
             Space
           </a>
-          <a href="#location" onClick={(e) => handleNavClick(e, 'location')}>
-            Map & Arrival
-          </a>
-          <a href="#faq" onClick={(e) => handleNavClick(e, 'faq')}>
-            FAQ
-          </a>
           <a href="#reservations" onClick={(e) => handleNavClick(e, 'reservations')}>
             Reservations
           </a>
@@ -116,7 +110,7 @@ export function Header({ onBookTable, onOpenMenuPage }: HeaderProps) {
             onClick={onBookTable}
             className="nav-cta"
           >
-            Book a table
+            Book a Table
           </button>
         </nav>
 

@@ -162,7 +162,7 @@
   box-shadow: 0 6px 20px rgba(139, 21, 35, 0.6), 0 0 14px rgba(212, 175, 55, 0.25);
 }
 
-/* Header behavior during cinematic intro */
+/* Header behavior during cinematic intro & scrolling */
 .site-header.is-cinematic {
   background: transparent;
   border-bottom: 1px solid transparent;
@@ -172,23 +172,33 @@
   opacity: 0.95;
 }
 
-.site-header.is-cinematic .site-nav {
-  background: rgba(14, 14, 18, 0.55);
+/* Floating Frosted Pill Navigation Capsule (Desktop) */
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 1.4vw, 1.4rem);
+  margin-left: auto;
+  background: rgba(18, 12, 14, 0.68);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  padding: 6px 14px 6px 18px;
+  padding: 5px 6px 5px 22px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45), inset 0 0 10px rgba(212, 175, 55, 0.06);
+  transition: all var(--dur-base) var(--ease-out);
 }
 
-/* When exiting cinematic intro into main site or scrolled */
+.site-header.is-scrolled {
+  background: rgba(7, 7, 9, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
 .site-header.is-scrolled .site-nav {
-  background: transparent;
-  backdrop-filter: none;
-  border: 1px solid transparent;
-  box-shadow: none;
-  padding: 0;
+  background: rgba(22, 16, 20, 0.75);
+  border-color: rgba(212, 175, 55, 0.28);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 /* ---- Cinematic stage ---- */
@@ -245,14 +255,14 @@
 .reduced-motion-cinematic {
   position: relative;
   width: 100%;
-  min-height: auto;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
   background:
-    radial-gradient(ellipse at 50% 30%, rgba(145, 24, 38, 0.28) 0%, rgba(6, 6, 8, 0.96) 70%),
-    #060608;
-  padding: clamp(4.5rem, 9vh, 6.5rem) clamp(1rem, 4vw, 3rem) clamp(2.5rem, 5vh, 3.5rem);
+    radial-gradient(ellipse at 50% 45%, rgba(160, 24, 40, 0.35) 0%, rgba(8, 8, 10, 0.88) 85%),
+    url('/images/curtain-backdrop.jpg') center/cover no-repeat;
+  padding: clamp(5.5rem, 11vh, 7.5rem) clamp(1.2rem, 4vw, 3rem) clamp(3rem, 6vh, 4.5rem);
   text-align: center;
   box-sizing: border-box;
   overflow: hidden;
@@ -471,106 +481,147 @@
 }
 
 /* =========================================================================
-   CURTAIN ENRICHMENT — decorative + substantive content fills empty curtain
+   THEATRICAL STAGE COMPOSITION — MATCHING REFERENCE DESIGN
    ========================================================================= */
 
-/* ── Corner Flourishes: brass rules framing the theatrical stage ────────── */
-.curtain-corner {
+/* ── Golden Inset Frame & Victorian Corner Flourishes ──────────────────── */
+.curtain-stage-frame {
   position: absolute;
-  width: 84px;
-  height: 84px;
+  inset: clamp(12px, 2.4vw, 28px);
   pointer-events: none;
-  z-index: 1;
+  z-index: 5;
   will-change: transform, opacity;
 }
 
-.curtain-corner--tl { top: clamp(16px, 3.2vh, 36px); left: clamp(20px, 3.8vw, 56px); }
-.curtain-corner--tr { top: clamp(16px, 3.2vh, 36px); right: clamp(20px, 3.8vw, 56px); }
-.curtain-corner--bl { bottom: clamp(14px, 2.8vh, 30px); left: clamp(20px, 3.8vw, 56px); }
-.curtain-corner--br { bottom: clamp(14px, 2.8vh, 30px); right: clamp(20px, 3.8vw, 56px); }
-
-.curtain-corner__rule {
+.curtain-frame-border {
   position: absolute;
-  background: linear-gradient(90deg, transparent 0%, rgba(212, 163, 115, 0.55) 50%, rgba(212, 163, 115, 0.85) 100%);
-  box-shadow: 0 0 10px rgba(212, 163, 115, 0.18);
+  inset: 0;
+  border: 1px solid rgba(212, 175, 55, 0.38);
+  box-shadow:
+    inset 0 0 25px rgba(212, 175, 55, 0.06),
+    0 0 16px rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  pointer-events: none;
 }
 
-.curtain-corner__rule--h {
-  height: 1px;
+.curtain-corner-flourish {
+  position: absolute;
+  width: clamp(52px, 5.5vw, 70px);
+  height: clamp(52px, 5.5vw, 70px);
+  z-index: 6;
+  pointer-events: none;
+}
+
+.curtain-corner-flourish svg {
   width: 100%;
-}
-
-.curtain-corner__rule--v {
-  width: 1px;
   height: 100%;
-  background: linear-gradient(180deg, transparent 0%, rgba(212, 163, 115, 0.55) 50%, rgba(212, 163, 115, 0.85) 100%);
+  display: block;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.85));
 }
 
-/* Flip gradients for opposite corners so they always point inward */
-.curtain-corner--tr .curtain-corner__rule--h { background: linear-gradient(-90deg, transparent 0%, rgba(212, 163, 115, 0.55) 50%, rgba(212, 163, 115, 0.85) 100%); }
-.curtain-corner--tr .curtain-corner__rule--v { background: linear-gradient(180deg, transparent 0%, rgba(212, 163, 115, 0.55) 50%, rgba(212, 163, 115, 0.85) 100%); }
-.curtain-corner--bl .curtain-corner__rule--h { background: linear-gradient(90deg, transparent 0%, rgba(212, 163, 115, 0.55) 50%, rgba(212, 163, 115, 0.85) 100%); }
-.curtain-corner--bl .curtain-corner__rule--v { background: linear-gradient(0deg, transparent 0%, rgba(212, 163, 115, 0.55) 50%, rgba(212, 163, 115, 0.85) 100%); }
-.curtain-corner--br .curtain-corner__rule--h { background: linear-gradient(-90deg, transparent 0%, rgba(212, 163, 115, 0.55) 50%, rgba(212, 163, 115, 0.85) 100%); }
-.curtain-corner--br .curtain-corner__rule--v { background: linear-gradient(0deg, transparent 0%, rgba(212, 163, 115, 0.55) 50%, rgba(212, 163, 115, 0.85) 100%); }
+.curtain-corner--tl {
+  top: -2px;
+  left: -2px;
+}
 
-.curtain-corner--tl .curtain-corner__rule--h { top: 0; left: 0; }
-.curtain-corner--tl .curtain-corner__rule--v { top: 0; left: 0; }
-.curtain-corner--tr .curtain-corner__rule--h { top: 0; right: 0; }
-.curtain-corner--tr .curtain-corner__rule--v { top: 0; right: 0; }
-.curtain-corner--bl .curtain-corner__rule--h { bottom: 0; left: 0; }
-.curtain-corner--bl .curtain-corner__rule--v { bottom: 0; left: 0; }
-.curtain-corner--br .curtain-corner__rule--h { bottom: 0; right: 0; }
-.curtain-corner--br .curtain-corner__rule--v { bottom: 0; right: 0; }
+.curtain-corner--tr {
+  top: -2px;
+  right: -2px;
+  transform: scaleX(-1);
+}
 
-/* ── Top Establishment Mark: fills the empty upper curtain ──────────────── */
-.curtain-topmark {
+.curtain-corner--bl {
+  bottom: -2px;
+  left: -2px;
+  transform: scaleY(-1);
+}
+
+.curtain-corner--br {
+  bottom: -2px;
+  right: -2px;
+  transform: scale(-1, -1);
+}
+
+/* ── Golden Sparkle Star in Lower-Right Quadrant ───────────────────────── */
+.curtain-sparkle-star {
   position: absolute;
-  top: clamp(28px, 5.5vh, 65px);
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  z-index: 2;
+  right: clamp(8%, 16vw, 22%);
+  bottom: clamp(14%, 20vh, 26%);
+  color: #ffd770;
+  filter: drop-shadow(0 0 8px rgba(255, 215, 112, 0.85)) drop-shadow(0 0 20px rgba(212, 175, 55, 0.5));
+  animation: sparklePulse 3.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 5;
+}
+
+@keyframes sparklePulse {
+  0%, 100% {
+    transform: scale(0.9) rotate(0deg);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1.22) rotate(12deg);
+    opacity: 1;
+    filter: drop-shadow(0 0 14px rgba(255, 225, 130, 0.95)) drop-shadow(0 0 28px rgba(212, 175, 55, 0.75));
+  }
+}
+
+/* ── Center Hero Vertical Stack ────────────────────────────────────────── */
+.cinematic-hero-stack {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
-  padding: 0.55rem 1.2rem;
-  will-change: transform, opacity;
-  pointer-events: none;
+  justify-content: center;
+  text-align: center;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 6;
 }
 
+/* 1. Cafe Logo Medallion with Golden Halo */
 .curtain-logo-crest {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 0.5rem;
-  width: clamp(66px, 6vw, 82px);
-  height: clamp(66px, 6vw, 82px);
+  margin: 0 auto 0.65rem;
+  width: clamp(74px, 7.5vw, 88px);
+  height: clamp(74px, 7.5vw, 88px);
   border-radius: 50%;
   background: #ffffff;
-  border: 2px solid rgba(212, 175, 55, 0.7);
+  border: 2px solid rgba(212, 175, 55, 0.85);
   box-shadow:
-    0 0 28px rgba(212, 175, 55, 0.4),
-    0 8px 24px rgba(0, 0, 0, 0.6),
-    inset 0 0 10px rgba(212, 175, 55, 0.2);
+    0 0 35px rgba(212, 175, 55, 0.5),
+    0 8px 30px rgba(0, 0, 0, 0.7),
+    inset 0 0 12px rgba(212, 175, 55, 0.25);
   position: relative;
   will-change: transform, opacity;
+}
+
+.curtain-logo-crest__halo {
+  position: absolute;
+  inset: -28px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.35) 0%, rgba(212, 175, 55, 0.1) 50%, transparent 75%);
+  pointer-events: none;
+  z-index: -1;
+  animation: haloPulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes haloPulse {
+  0% { transform: scale(0.95); opacity: 0.7; }
+  100% { transform: scale(1.12); opacity: 1; }
 }
 
 .curtain-logo-crest::after {
   content: '';
   position: absolute;
-  inset: -6px;
+  inset: -7px;
   border-radius: 50%;
-  border: 1px dashed rgba(212, 175, 55, 0.45);
+  border: 1px dashed rgba(212, 175, 55, 0.5);
   pointer-events: none;
-  animation: crestRotate 20s linear infinite;
-}
-
-@keyframes crestRotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  animation: crestRotate 24s linear infinite;
 }
 
 .curtain-logo-crest__img {
@@ -581,122 +632,114 @@
   display: block;
 }
 
-.curtain-topmark__eyebrow {
+/* 2. Eyebrow: ✦ VASHI · NAVI MUMBAI ✦ */
+.curtain-hero-eyebrow {
   font-family: var(--font-mono);
-  font-size: clamp(0.64rem, 0.78vw, 0.74rem);
-  letter-spacing: 0.34em;
+  font-size: clamp(0.68rem, 0.88vw, 0.82rem);
+  letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: rgba(212, 163, 115, 0.88);
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
+  color: #d4af37;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
+  margin-bottom: 0.55rem;
+  display: inline-block;
+  will-change: transform, opacity;
 }
 
-.curtain-topmark__year {
-  font-family: var(--font-display);
-  font-size: clamp(1.65rem, 2.3vw, 2.1rem);
-  font-weight: 300;
-  letter-spacing: 0.14em;
-  color: #f7f4ee;
-  opacity: 0.94;
-  line-height: 1;
-  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.78);
-  margin-top: 0.05rem;
-}
-
-.curtain-topmark__rule {
-  width: 62px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(212, 163, 115, 0.72), transparent);
-  margin: 0.25rem 0;
-}
-
-.curtain-topmark__tagline {
-  margin: 0;
-  font-family: var(--font-sans);
-  font-style: italic;
-  font-size: clamp(0.72rem, 0.95vw, 0.88rem);
-  letter-spacing: 0.12em;
-  color: rgba(247, 244, 238, 0.62);
-}
-
-/* ── Signature Pillars / Offerings Chips Row ────────────────────────────── */
-.curtain-pillars {
-  position: absolute;
-  top: clamp(140px, 21vh, 210px);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
+/* 3. Flanked Row: [ ✦ TANDOORI KITCHEN ] · Est. 2024 · [ ✦ AL FRESCO DINING ] */
+.curtain-flanked-row {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: clamp(0.6rem, 1.2vw, 1.2rem);
+  margin-bottom: 0.75rem;
   flex-wrap: wrap;
-  gap: clamp(0.75rem, 1.3vw, 1.3rem);
-  max-width: 920px;
-  padding: 0 clamp(0.8rem, 2vw, 1.8rem);
   will-change: transform, opacity;
-  pointer-events: none;
 }
 
-.curtain-pillar {
+.curtain-flank-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.32rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(18, 12, 15, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  font-family: var(--font-mono);
+  font-size: clamp(0.62rem, 0.75vw, 0.72rem);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.9);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
+}
+
+.flank-pill-star {
+  color: #d4af37;
+  font-size: 0.72rem;
+}
+
+.curtain-flank-center {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.38rem 0.95rem;
-  border-radius: 999px;
-  background: rgba(10, 10, 14, 0.34);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border: 1px solid rgba(212, 163, 115, 0.26);
-  font-family: var(--font-mono);
-  font-size: clamp(0.62rem, 0.78vw, 0.72rem);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(247, 244, 238, 0.75);
-  white-space: nowrap;
-  box-shadow:
-    0 4px 14px rgba(0, 0, 0, 0.42),
-    inset 0 0 16px rgba(212, 163, 115, 0.04);
+  font-family: var(--font-display);
+  color: #f7f4ee;
 }
 
-.curtain-pillar__dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #d4a373;
-  box-shadow: 0 0 8px rgba(212, 163, 115, 0.7);
-  flex-shrink: 0;
+.flank-year {
+  font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
 }
 
-/* ── Divider Hairline under Title ────────────────────────────────────────── */
-.curtain-divider {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 52%;
-  min-width: 260px;
-  max-width: 480px;
-  height: 14px;
-  margin: 1rem auto 0.4rem;
+.flank-dot {
+  color: rgba(212, 175, 55, 0.7);
+  font-size: 1.1rem;
+}
+
+/* 4. Subtitle / Tagline: A Stage for Unforgettable Dining */
+.curtain-hero-tagline {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.15rem, 1.8vw, 1.55rem);
+  letter-spacing: 0.04em;
+  color: #f5efe6;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85);
   will-change: transform, opacity;
-  pointer-events: none;
 }
 
-.curtain-divider::before,
-.curtain-divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(247, 244, 238, 0.22) 20%, rgba(212, 163, 115, 0.68) 50%, rgba(247, 244, 238, 0.22) 80%, transparent);
+/* 5. Classical Serif Main Title with 3D drop shadow */
+.cinematic-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 6.2vw, 5.8rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fcf9f2;
+  margin: 0;
+  line-height: 1;
+  text-shadow:
+    0 4px 0 rgba(36, 5, 8, 0.9),
+    0 8px 24px rgba(0, 0, 0, 0.9),
+    0 0 45px rgba(212, 175, 55, 0.28);
+  white-space: nowrap;
 }
 
-.curtain-divider__diamond {
-  width: 6px;
-  height: 6px;
-  background: #d4a373;
-  transform: rotate(45deg);
-  margin: 0 10px;
-  box-shadow: 0 0 10px rgba(212, 163, 115, 0.6);
-  flex-shrink: 0;
+/* 6. Diamond Separator */
+.curtain-diamond-separator {
+  font-size: 0.72rem;
+  color: #d4af37;
+  margin: 0.85rem 0 0.2rem;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.7);
+  display: inline-block;
+  will-change: transform, opacity;
 }
 
 /* ── RISING WELCOME MESSAGE: bottom → top as user scrolls ───────────────── */
@@ -2450,6 +2493,58 @@
   border-color: #8b1523;
   color: #ff8080;
   transform: rotate(90deg);
+}
+
+@media (max-width: 640px) {
+  .menu-page__header {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .menu-page__header-inner {
+    gap: 0.45rem;
+  }
+
+  .menu-page__subtitle {
+    display: none;
+  }
+
+  .menu-page__title {
+    font-size: 1.02rem;
+    white-space: nowrap;
+  }
+
+  .menu-page__brand-logo-frame {
+    width: 28px;
+    height: 28px;
+  }
+
+  .menu-page__header-brand {
+    gap: 0.4rem;
+    overflow: hidden;
+  }
+
+  .menu-page__back-btn {
+    padding: 0.35rem 0.65rem;
+    font-size: 0.76rem;
+    flex-shrink: 0;
+  }
+
+  .menu-page__header-actions {
+    gap: 0.35rem;
+    flex-shrink: 0;
+  }
+
+  .menu-page__book-btn {
+    padding: 0.38rem 0.75rem;
+    font-size: 0.76rem;
+    white-space: nowrap;
+  }
+
+  .menu-page__close-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.95rem;
+  }
 }
 
 /* Main Body */
